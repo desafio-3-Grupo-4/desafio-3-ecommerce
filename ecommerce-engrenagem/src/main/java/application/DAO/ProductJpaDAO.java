@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+
 public class ProductJpaDAO {
 
     // Singleton
@@ -15,6 +16,7 @@ public class ProductJpaDAO {
 
     @PersistenceContext
     protected EntityManager entityManager;
+
     private ProductJpaDAO(){
         entityManager = getEntityManager();
     }

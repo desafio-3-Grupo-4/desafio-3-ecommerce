@@ -18,7 +18,6 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         System.out.println("Hello world!");
-
         Product p1 = new Product( null, "rocketleague","cars with rockets", 2.4);
         Product p2 = new Product( null, "wolfstein", "Kill Nazis", 20.0);
         Product p3 = new Product( null, "resident evil 4 remake", "kill las plaguas", 50.0);

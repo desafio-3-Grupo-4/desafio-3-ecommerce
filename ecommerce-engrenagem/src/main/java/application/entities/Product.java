@@ -1,12 +1,12 @@
 package application.entities;
 
+import application.DAO.ProductJpaDAO;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,6 +26,20 @@ public class Product implements Serializable {
     private String description;
 
     private Double value;
+
+    @OneToMany(mappedBy = "product")
+    private Set<OrderItem> orders = new HashSet<>();
+
+    public Product( Integer id,
+                    String name,
+                    String description,
+                    Double value){
+        this.name = name;
+        this.description = description;
+        this.value = value;
+
+    }
+
 
 
 }
