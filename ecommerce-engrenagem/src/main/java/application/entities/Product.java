@@ -1,9 +1,6 @@
 package application.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +13,7 @@ import java.io.Serializable;
 @ToString
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 

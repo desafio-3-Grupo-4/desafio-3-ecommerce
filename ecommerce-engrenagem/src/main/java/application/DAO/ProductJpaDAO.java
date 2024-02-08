@@ -5,11 +5,15 @@ import application.entities.Product;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 public class ProductJpaDAO {
+
+    // Singleton
     private static ProductJpaDAO instance;
 
+    @PersistenceContext
     protected EntityManager entityManager;
     private ProductJpaDAO(){
         entityManager = getEntityManager();
@@ -39,7 +43,8 @@ public class ProductJpaDAO {
 
     @SuppressWarnings("unchecked")
     public List<Product> findAll(){
-        return entityManager.createQuery("FROM " + Product.class.getName()).getResultList();
+        return entityManager.createQuery("FROM " +
+                Product.class.getName()).getResultList();
     }
 
     public void persist(Product product){
@@ -49,10 +54,13 @@ public class ProductJpaDAO {
             entityManager.persist(product);
 
             entityManager.getTransaction().commit();
+
+
         } catch (Exception ex){
             System.out.println("Fail to save product: " + ex.getMessage());
             ex.printStackTrace();
             entityManager.getTransaction().rollback();
+
         }
     }
 
