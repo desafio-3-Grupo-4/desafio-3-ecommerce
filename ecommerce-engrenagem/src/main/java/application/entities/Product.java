@@ -1,6 +1,5 @@
 package application.entities;
 
-import application.DAO.ProductJpaDAO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +18,7 @@ public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -40,6 +39,11 @@ public class Product implements Serializable {
 
     }
 
+    public void validate() {
+        if(name == null || description == null){
+            throw new IllegalArgumentException("Name and description cannot be null");
+        }
+    }
 
 
 }

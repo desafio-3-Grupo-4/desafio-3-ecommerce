@@ -1,18 +1,17 @@
 package application;
 
-import application.DAO.ProductJpaDAO;
+import application.DAO.ProductDAO;
 import application.entities.Product;
+import application.managers.SimpleEntityManager;
+import application.service.ProductService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    static ProductJpaDAO products = ProductJpaDAO.getInstance();
+    static SimpleEntityManager simpleEntityManager = new SimpleEntityManager("ecommerce-jpa");
+    static ProductService productService = new ProductService(simpleEntityManager );
     static List<Product> listOfAllProducts = new ArrayList<>();
 
 
@@ -25,21 +24,13 @@ public class Main {
         Product p5 = new Product( null, "resident evil 2 remake", "kill las plaguas", 50.0);
 
 
-        products.persist(p1);
-        products.persist(p2);
-        products.persist(p3);
-        products.persist(p4);
-        products.persist(p5);
-
-
-
-
-        products.remove(p4);
+        productService.save(p1);
+        productService.save(p2);
+        productService.save(p3);
+        productService.save(p4);
+        productService.save(p5);
 
         printProducts();
-
-
-        products.removeById(2);
 
         printProducts();
 
@@ -65,6 +56,6 @@ public class Main {
 
     public static void updateListOfAllProducts(){
         // bring all the products from the database and put in the list
-        listOfAllProducts = products.findAll();
+        listOfAllProducts = productService.findAll();
     }
 }
