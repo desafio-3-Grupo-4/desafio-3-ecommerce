@@ -64,6 +64,18 @@ public class ProductJpaDAO {
         }
     }
 
+    public void merge(Product product) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(product);
+            entityManager.getTransaction().commit();
+        } catch (Exception ex) {
+            System.out.println("Fail to update product: " + ex.getMessage());
+            ex.printStackTrace();
+            entityManager.getTransaction().rollback();
+        }
+    }
+
     public void remove(Product product){
         try{
             entityManager.getTransaction().begin();
