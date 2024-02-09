@@ -3,14 +3,8 @@ package application;
 import application.entities.Order;
 import application.entities.OrderItem;
 import application.entities.Product;
-import application.managers.SimpleEntityManager;
-import application.service.OrderItemService;
-import application.service.OrderService;
-import application.service.ProductService;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static application.utilities.Util.*;
 
