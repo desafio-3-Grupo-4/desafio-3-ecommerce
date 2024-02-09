@@ -313,6 +313,12 @@ public class Main {
                 System.out.print("Digite o id da Ordem: ");
                 orderId = scanner.nextLong();
                 printOrderItems(orderId);
+
+                Order orderToDelete = orderService.findById(orderId);
+
+                orderService.delete(orderToDelete);
+
+
                 break;
 
            // "5- Mostrar pedido em detalhe");
