@@ -1,5 +1,7 @@
 package application.DAO;
 
+import application.entities.OrderItem;
+
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
@@ -15,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @SuppressWarnings("unchecked")
 public class GenericDAO<PK, T> {
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     public GenericDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -61,4 +63,6 @@ public class GenericDAO<PK, T> {
                 .getGenericSuperclass()).getActualTypeArguments()[1];
         return clazz;
     }
+
+
 }

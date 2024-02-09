@@ -20,7 +20,6 @@ public class OrderService extends GenericService<Long, Order>{
 
     }
 
-
     public void save(Order entity){
         try{
             simpleEntityManager.beginTransaction();
@@ -45,5 +44,29 @@ public class OrderService extends GenericService<Long, Order>{
             simpleEntityManager.rollBack();
         }
     }
+
+    public void delete(Order entity){
+        try{
+            simpleEntityManager.beginTransaction();
+
+            dao.remove(entity);
+
+            for(OrderItem item: entity.getProducts()){
+                productDAO.getById(item.getProduct().getId()).removeOrder(entity.getId());
+                orderItemDAO.remove(item);
+
+            }
+
+            simpleEntityManager.commit();
+        }catch(Exception e){
+            System.out.println("Fail to save Order item: " + e.getMessage());
+            e.printStackTrace();
+
+            simpleEntityManager.rollBack();
+        }
+    }
+
+
+
 
 }

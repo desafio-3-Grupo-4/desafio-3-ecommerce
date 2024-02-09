@@ -60,6 +60,10 @@ public class Product extends BaseEntity {
         orders.add(new OrderItem(order, this, quantity));
     }
 
+    public void removeOrder(Long order) {
+        orders.removeIf(itemInOrders -> Objects.equals(itemInOrders.getOrder().getId(), order));
+    }
+
 
     @Override
     public void validate() {
