@@ -12,15 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
-    static SimpleEntityManager simpleEntityManager = new SimpleEntityManager("ecommerce-jpa");
-    static ProductService productService = new ProductService(simpleEntityManager );
-    static OrderService orderService = new OrderService(simpleEntityManager);
-    static OrderItemService orderItemService = new OrderItemService(simpleEntityManager);
-    static List<Product> listOfAllProducts = new ArrayList<>();
-    static List<Order> listOfAllOrders = new ArrayList<>();
-    static List<OrderItem> listOfOrderItem = new ArrayList<>();
+import static application.utilities.Util.*;
 
+public class Main {
 
     public static void main(String[] args) throws SQLException {
         System.out.println("Hello world!");
@@ -53,11 +47,13 @@ public class Main {
 
         printOrders();*/
 
-        Product p1 = new Product( null, "wolfstein", "", 20.0);
+        Product p1 = new Product( null, "wolfstein", "Killing mother fóckers", 20.0);
 
-        for (int i = 0; i < 2; i++) {
-            productService.save(p1);
-        }
+//        for (int i = 0; i < 2; i++) {
+//            productService.save(p1);
+//        }
+
+
 
 
 

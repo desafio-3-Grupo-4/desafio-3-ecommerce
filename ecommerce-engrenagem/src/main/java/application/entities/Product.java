@@ -1,7 +1,7 @@
 package application.entities;
 
-import application.exceptions.ErrorConstraint;
-import application.service.GenericService;
+import application.exceptions.ConstraintException;
+import application.exceptions.DuplicateEntityException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+
+import static application.utilities.Util.productService;
 
 @Getter
 @Setter
@@ -60,14 +64,33 @@ public class Product extends BaseEntity {
     @Override
     public void validate() {
         if (name == null || description == null) {
-            throw new ErrorConstraint("Name and description cannot be null");
+            throw new ConstraintException("Name and description cannot be null");
         }
         if (value < 0) {
-            throw new ErrorConstraint("The value of the product must be positive");
+            throw new ConstraintException("The value of the product must be positive");
         }
         if (description.length() < 10) {
-            throw new ErrorConstraint("The product description must be a minimum of 10 characters long");
+            throw new ConstraintException("The product description must be a minimum of 10 characters long");
         }
+
+        List<Product> allProducts = productService.findAll();
+        if (allProducts.contains(this)){
+            throw new DuplicateEntityException("There is already a product with this name");
+        }
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(name, product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override
