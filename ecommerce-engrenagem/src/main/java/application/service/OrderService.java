@@ -13,10 +13,13 @@ import application.managers.SimpleEntityManager;
 public class OrderService extends GenericService<Long, Order>{
     private OrderItemDAO orderItemDAO ;
 
+    private ProductDAO productDAO;
+
 
     public OrderService(SimpleEntityManager simpleEntityManager) {
         super(simpleEntityManager, new OrderDAO(simpleEntityManager.getEntityManager()));
         orderItemDAO = new OrderItemDAO(simpleEntityManager.getEntityManager());
+        productDAO = new ProductDAO((simpleEntityManager.getEntityManager()));
 
     }
 
@@ -31,8 +34,11 @@ public class OrderService extends GenericService<Long, Order>{
 
             for(OrderItem item: entity.getProducts()){
                 orderItemDAO.persist(item);
-
+                productDAO.getById(item.getProduct().getId()).addOrder(entity);
             }
+
+
+
 
             simpleEntityManager.commit();
         }catch(Exception e){

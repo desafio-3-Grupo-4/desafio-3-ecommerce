@@ -44,8 +44,6 @@ public class Main {
         order1.addProduct(productService.findById(2L));
         order1.addProduct(productService.findById(5L));
 
-        productService.findById(2L).addOrder(order1);
-        productService.findById(5L).addOrder(order1);
 
         orderService.save(order1);
 
