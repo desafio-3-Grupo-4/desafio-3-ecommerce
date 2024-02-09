@@ -53,8 +53,14 @@ public class Main {
 
         printOrders();*/
 
-        Product p1 = new Product( null, null, "Kill Nazis", 20.0);
-        productService.save(p1);
+        Product p1 = new Product( null, "wolfstein", "", 20.0);
+
+        for (int i = 0; i < 2; i++) {
+            productService.save(p1);
+        }
+
+
+
 
     }
 

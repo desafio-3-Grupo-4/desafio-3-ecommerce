@@ -1,6 +1,7 @@
 package application.entities;
 
 import application.enums.OrderStatus;
+import application.exceptions.ErrorConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +43,7 @@ public class Order extends BaseEntity {
     @Override
     public void validate() {
         if (orderStatus == null){
-            throw new IllegalArgumentException("OrderStatus cannot be null");
+            throw new ErrorConstraint("OrderStatus cannot be null");
         }
     }
 

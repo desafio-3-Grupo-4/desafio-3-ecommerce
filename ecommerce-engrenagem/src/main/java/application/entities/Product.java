@@ -1,5 +1,7 @@
 package application.entities;
 
+import application.exceptions.ErrorConstraint;
+import application.service.GenericService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,13 +60,13 @@ public class Product extends BaseEntity {
     @Override
     public void validate() {
         if (name == null || description == null) {
-            throw new IllegalArgumentException("Name and description cannot be null");
+            throw new ErrorConstraint("Name and description cannot be null");
         }
         if (value < 0) {
-            throw new IllegalArgumentException("The value of the product must be positive");
+            throw new ErrorConstraint("The value of the product must be positive");
         }
-        if (description.length() < 10){
-            throw new IllegalArgumentException("The product description must be a minimum of 10 characters long");
+        if (description.length() < 10) {
+            throw new ErrorConstraint("The product description must be a minimum of 10 characters long");
         }
     }
 

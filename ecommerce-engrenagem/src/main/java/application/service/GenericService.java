@@ -3,13 +3,8 @@ package application.service;
 import application.DAO.GenericDAO;
 import application.entities.BaseEntity;
 import application.managers.SimpleEntityManager;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
 
 import java.util.List;
-import java.util.Set;
 
 public class GenericService<PK, T> {
     protected GenericDAO dao;
@@ -23,29 +18,26 @@ public class GenericService<PK, T> {
     }
 
     public void save(BaseEntity entity) {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<BaseEntity>> constraintViolations = validator.validate(entity);
+//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//        Validator validator = factory.getValidator();
+//        Set<ConstraintViolation<BaseEntity>> constraintViolations = validator.validate(entity);
 
-        for (ConstraintViolation error : constraintViolations) {
-            String msgError = error.getMessage();
-            System.out.println(msgError);
-        }
+//        for (ConstraintViolation error : constraintViolations) {
+//            String msgError = error.getMessage();
+//            System.out.println(msgError);
+//        }
 
         try {
             simpleEntityManager.beginTransaction();
 
-//            entity.validate();
+            entity.validate();
 
             dao.persist(entity);
 
             simpleEntityManager.commit();
         } catch (Exception e) {
             System.out.println("Fail to save product: " + e.getMessage());
-
-
-            e.printStackTrace();
-
+//            e.printStackTrace();
             simpleEntityManager.rollBack();
         }
     }
@@ -61,7 +53,7 @@ public class GenericService<PK, T> {
 
         } catch (Exception ex) {
             System.out.println("Fail to update product: " + ex.getMessage());
-            ex.printStackTrace();
+//            ex.printStackTrace();
             simpleEntityManager.rollBack();
         }
 
@@ -77,7 +69,7 @@ public class GenericService<PK, T> {
 
         } catch (Exception ex) {
             System.out.println("Remove error: " + ex.getMessage());
-            ex.printStackTrace();
+//            ex.printStackTrace();
             simpleEntityManager.rollBack();
         }
     }
