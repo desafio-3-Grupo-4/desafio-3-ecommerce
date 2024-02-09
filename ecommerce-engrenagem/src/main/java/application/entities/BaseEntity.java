@@ -18,8 +18,6 @@ public class BaseEntity implements Serializable {
     private Long id;
 
     public void validate(){
-        if(id == null){
-            throw new IllegalArgumentException("Name cannot be null");
-        }
+
     }
 }

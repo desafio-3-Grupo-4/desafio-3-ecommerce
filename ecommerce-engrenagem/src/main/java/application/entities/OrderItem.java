@@ -1,9 +1,6 @@
 package application.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.ManyToOne;
 import javax.persistence.*;
@@ -14,13 +11,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class OrderItem implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class OrderItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id;
-
+    private Long id;
 
     private Integer quantity;
 
@@ -32,7 +27,32 @@ public class OrderItem implements Serializable {
     @JoinColumn(name = "product_id")
     private Product product;
 
+
+    public OrderItem(Order order, Product product, Integer quantity){
+        this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+    public OrderItem(Order order, Product product){
+        this.order = order;
+        this.product = product;
+        this.quantity = 1;
+
+    }
+
     public Double subTotal(){
         return this.quantity * product.getValue();
     }
+
+
+    @Override
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(product.getName());
+
+        return stringBuilder.toString();
+    }
+
+
 }

@@ -9,9 +9,9 @@ import application.managers.SimpleEntityManager;
 import java.util.List;
 
 public class GenericService<PK, T> {
-    private GenericDAO dao;
+    protected GenericDAO dao;
 
-    private SimpleEntityManager simpleEntityManager;
+    protected SimpleEntityManager simpleEntityManager;
 
     public GenericService(SimpleEntityManager simpleEntityManager, GenericDAO entity){
         this.simpleEntityManager = simpleEntityManager;
@@ -36,7 +36,7 @@ public class GenericService<PK, T> {
         }
     }
 
-    public void update(Product entity) {
+    public void update(BaseEntity entity) {
 
         try {
             simpleEntityManager.beginTransaction();
@@ -53,7 +53,7 @@ public class GenericService<PK, T> {
 
     }
 
-    public void delete(Product entity) {
+    public void delete(BaseEntity entity) {
         try {
             simpleEntityManager.beginTransaction();
 
@@ -68,7 +68,11 @@ public class GenericService<PK, T> {
         }
     }
 
-    public List<Product> findAll(){
+    public List<T> findAll(){
         return dao.findAll();
+    }
+
+    public T findById(PK id){
+        return (T) dao.getById(id);
     }
 }
