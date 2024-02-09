@@ -200,7 +200,7 @@ public class Main {
         do {
             System.out.println("-------------MenuCostumer-------------");
             System.out.println("1- Adicionar produto ao carrinho");
-            System.out.println("2- Retirar produto do carrinho");
+            System.out.println("2- Modificar produtos do carrinho");
             System.out.println("3- excluir pedido");
             System.out.println("3- Modificar status do pedido");
             System.out.println("4- Mostrar pedido em detalhe");
@@ -338,6 +338,26 @@ public class Main {
             switch (operation) {
                 // delete a item from order
                 case 1:
+                    System.out.println("Digite o id do item");
+                    itemId = scanner.nextLong();
+                    printOrderItem(orderId, itemId);
+
+                    Order updatedOrder = orderService.findById(orderId);
+                    items = List.copyOf(updatedOrder.getProducts());
+                    OrderItem newOrderItem = null;
+
+                    for (OrderItem item : items){
+                        if(item.getOrder().getId().equals(orderId) && item.getProduct().getId().equals(itemId)){
+                            orderItemService.delete(item);
+                            updatedOrder.getProducts().remove(item);
+                            orderService.update(updatedOrder);
+
+                            Product updatedProduct = productService.findById(item.getProduct().getId());
+                            updatedProduct.getOrders().remove(item);
+                            productService.update(updatedProduct);
+                        }
+                    }
+
                     break;
                 // update a item quantity
                 case 2:
@@ -349,9 +369,9 @@ public class Main {
                     scanner.nextLine();
                     quant = scanner.nextInt();
 
-                    Order updatedOrder = orderService.findById(orderId);
+                    updatedOrder = orderService.findById(orderId);
                     items = List.copyOf(updatedOrder.getProducts());
-                    OrderItem newOrderItem = null;
+                    newOrderItem = null;
                     for (OrderItem item : items){
                         if(item.getOrder().getId().equals(orderId) && item.getProduct().getId().equals(itemId)){
                             item.setQuantity(quant);
