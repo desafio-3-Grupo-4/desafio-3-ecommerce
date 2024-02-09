@@ -1,9 +1,7 @@
 package application.service;
 
 import application.DAO.GenericDAO;
-import application.DAO.ProductDAO;
 import application.entities.BaseEntity;
-import application.entities.Product;
 import application.managers.SimpleEntityManager;
 
 import java.util.List;

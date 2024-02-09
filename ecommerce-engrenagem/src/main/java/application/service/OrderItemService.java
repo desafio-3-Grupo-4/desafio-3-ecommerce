@@ -1,6 +1,5 @@
 package application.service;
 
-import application.DAO.GenericDAO;
 import application.DAO.OrderItemDAO;
 import application.managers.SimpleEntityManager;
 

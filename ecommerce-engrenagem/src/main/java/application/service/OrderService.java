@@ -1,13 +1,10 @@
 package application.service;
 
-import application.DAO.GenericDAO;
 import application.DAO.OrderDAO;
 import application.DAO.OrderItemDAO;
 import application.DAO.ProductDAO;
-import application.entities.BaseEntity;
 import application.entities.Order;
 import application.entities.OrderItem;
-import application.entities.Product;
 import application.managers.SimpleEntityManager;
 
 public class OrderService extends GenericService<Long, Order>{
