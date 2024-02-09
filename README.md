@@ -5,9 +5,9 @@ O projeto consiste no desenvolvimento de uma estrutura para um e-commerce, utili
 
 # Tecnologias utilizadas
 
-[MySQL Community 8.0.35] (https://downloads.mysql.com/archives/installer/)
+[MySQL Community 8.0.35](https://downloads.mysql.com/archives/installer/)
 
-[Java 11] (https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html)
+[Java 11](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html)
 
 # Execução do projeto
 
