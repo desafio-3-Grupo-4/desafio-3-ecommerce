@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product implements Serializable {
+public class Product extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -39,6 +39,7 @@ public class Product implements Serializable {
 
     }
 
+    @Override
     public void validate() {
         if(name == null || description == null){
             throw new IllegalArgumentException("Name and description cannot be null");

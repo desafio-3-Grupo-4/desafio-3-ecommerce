@@ -14,9 +14,6 @@ import javax.persistence.PersistenceContext;
 
 @SuppressWarnings("unchecked")
 public class GenericDAO<PK, T> {
-
-    private static ProductDAO instance;
-
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -40,18 +37,7 @@ public class GenericDAO<PK, T> {
     }
 
     public void remove(T entity) {
-        try {
-            entityManager.getTransaction().begin();
-
-            entityManager.remove(entity);
-
-            entityManager.getTransaction().commit();
-
-        } catch (Exception ex){
-            System.out.println("Remove error: " + ex.getMessage());
-            ex.printStackTrace();
-            entityManager.getTransaction().rollback();
-        }
+        entityManager.remove(entity);
     }
 
     public void removeById(PK id){
