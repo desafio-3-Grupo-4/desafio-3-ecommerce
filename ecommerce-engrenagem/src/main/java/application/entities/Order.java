@@ -33,6 +33,7 @@ public class Order extends BaseEntity {
     private Set<OrderItem> products = new HashSet<>();
 
     public void addProduct(Product product){
+
         products.add(new OrderItem(this, product));
     }
 
