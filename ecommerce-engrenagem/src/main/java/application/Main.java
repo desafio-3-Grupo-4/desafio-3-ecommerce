@@ -3,6 +3,7 @@ package application;
 import application.entities.Order;
 import application.entities.OrderItem;
 import application.entities.Product;
+import application.enums.OrderStatus;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -13,10 +14,11 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         System.out.println("Hello world!");
-        int op;
-        
-               
+        int op = 1;
 
+        while (op != 0) {
+            op = mainMenu();
+        }
 
         System.out.println("End of application");
     }
@@ -127,12 +129,10 @@ public class Main {
 
         } while (op < 0 || op > 3);
 
-        scanner.close();
-
         return op;
     }
 
-    public static int mainMenu(){
+    public static int mainMenu() {
         Scanner scanner = new Scanner(System.in);
         int op;
 
@@ -147,29 +147,84 @@ public class Main {
 
         } while (op < 0 || op > 2);
 
-        scanner.close();
-        
-        switch (op){
+
+        switch (op) {
             case 1:
                 costumerDecision(menuCostumer());
                 return 1;
             case 2:
-                 admDecision(menuAdm());
+                admDecision(menuAdm());
                 return 1;
             default:
                 return op;
         }
+
     }
-    public static int costumerDecision(int op){
+
+    public static void costumerDecision(int op) {
         Scanner scanner = new Scanner(System.in);
-        switch (op){
+        Long id;
+        String name;
+        String description;
+        Double value;
+        Integer quantity;
+        String keep = "y";
+        int idStatus;
+
+        switch (op) {
+
             case 1:
+                Order o1 = new Order();
+                OrderItem orderItem = null;
+                while (!keep.equalsIgnoreCase("n")) {
+                    System.out.print("Digite o id do produto: ");
+                    id = scanner.nextLong();
+                    System.out.print("Digite a quantidade: ");
+                    quantity = scanner.nextInt();
+                    scanner.nextLine(); // consume line buffer
+                    Product p1 = productService.findById(id);
 
+                    o1.addProduct(p1,quantity);
+//                    orderItem = new OrderItem(o1, p1, quantity);
+//                    orderItemService.save(orderItem);
 
+                    System.out.println("Deseja adicionar mais pedidos? (y/n)");
+                    keep = scanner.next();
+                }
+                o1.setOrderStatus(OrderStatus.WAITING_PAYMENT);
+                orderService.save(o1);
+                break;
+
+            case 2:
+                System.out.println("Ainda não sei");
+                break;
+            case 3:
+                System.out.print("Digite o id da ordem: ");
+                id = scanner.nextLong();
+
+                o1 = orderService.findById(id);
+
+                System.out.println("Deseja modificá-la para qual status: ");
+                OrderStatus.printOrderStatus();
+                idStatus = scanner.nextInt();
+
+                o1.setOrderStatus(OrderStatus.fromValue(idStatus));
+                orderService.update(o1);
+                break;
         }
-        
+
     }
+
     private static void admDecision(int i) {
+
+
+//        System.out.print("Digite o nome do produto: ");
+//        name = scanner.nextLine();
+//        System.out.print("Digite a descrição do produto: ");
+//        description = scanner.nextLine();
+//        System.out.print("Digite o valor do produto: ");
+//        value = scanner.nextDouble();
+
     }
     
 
