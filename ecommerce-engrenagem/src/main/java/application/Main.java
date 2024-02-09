@@ -5,6 +5,7 @@ import application.entities.OrderItem;
 import application.entities.Product;
 
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import static application.utilities.Util.*;
 
@@ -41,27 +42,23 @@ public class Main {
 
         printOrders();*/
 
-        Product p1 = new Product( null, "wolfstein", "Killing mother fóckers", 20.0);
+        Product p1 = new Product(null, "wolfstein", "Killing mother fóckers", 20.0);
 
 //        for (int i = 0; i < 2; i++) {
 //            productService.save(p1);
 //        }
 
 
-
-
-
-
     }
 
-    public static void printProducts(){
+    public static void printProducts() {
         // update the list of products
         updateListOfAllProducts();
 
 
         System.out.println("=====================================");
         // for each product
-        for(Product p : listOfAllProducts){
+        for (Product p : listOfAllProducts) {
             // print all the information
             System.out.println(p.toString());
         }
@@ -71,21 +68,20 @@ public class Main {
         listOfAllProducts.clear();
     }
 
-    public static void updateListOfAllProducts(){
+    public static void updateListOfAllProducts() {
         // bring all the products from the database and put in the list
         listOfAllProducts = productService.findAll();
     }
 
 
-
-    public static void printOrders(){
+    public static void printOrders() {
         // update the list of orders
         updateListOfAllOrders();
 
 
         System.out.println("=====================================");
         // for each order
-        for(Order p : listOfAllOrders){
+        for (Order p : listOfAllOrders) {
             // print all the information
             System.out.println(p.toString());
         }
@@ -95,19 +91,19 @@ public class Main {
         listOfAllOrders.clear();
     }
 
-    public static void updateListOfAllOrders(){
+    public static void updateListOfAllOrders() {
         // bring all the orders from the database and put in the list
         listOfAllOrders = orderService.findAll();
     }
 
-    public static void printOrderItems(){
+    public static void printOrderItems() {
         // update the list of items in the order
         updateListOfOrderItem();
 
 
         System.out.println("=====================================");
         // for each order
-        for(OrderItem p : listOfOrderItem){
+        for (OrderItem p : listOfOrderItem) {
             // print all the information
             System.out.println(p.toString());
         }
@@ -117,9 +113,53 @@ public class Main {
         listOfOrderItem.clear();
     }
 
-    public static void updateListOfOrderItem(){
+    public static void updateListOfOrderItem() {
         // bring all the orders from the database and put in the list
         listOfOrderItem = orderItemService.findAll();
+    }
+
+    public static int menuAdm() {
+        Scanner scanner = new Scanner(System.in);
+        int op;
+
+        do {
+            System.out.println("-------------Menu-------------");
+            System.out.println("1- Criar produto");
+            System.out.println("2- Atualizar produto");
+            System.out.println("3- Consultar produto por ID");
+            System.out.println("4- Deletar produtos");
+            System.out.println("5- Listar produtos");
+            System.out.println("0- Sair");
+            System.out.println("------------------------------");
+            System.out.print("Escolha uma opção: ");
+            op = scanner.nextInt();
+
+        } while (op < 0 || op > 5);
+
+        scanner.close();
+
+        return op;
+    }
+
+    public static int menuClient() {
+        Scanner scanner = new Scanner(System.in);
+        int op;
+
+        do {
+            System.out.println("-------------Menu-------------");
+            System.out.println("1- Adicionar produto ao carrinho");
+            System.out.println("2- Retirar produto do carrinho");
+            System.out.println("3- Modificar status do pedido");
+            System.out.println("0- Sair");
+            System.out.println("------------------------------");
+            System.out.print("Escolha uma opção: ");
+            op = scanner.nextInt();
+
+        } while (op < 0 || op > 5);
+
+        scanner.close();
+
+        return op;
     }
 
 }
