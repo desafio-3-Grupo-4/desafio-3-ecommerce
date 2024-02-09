@@ -6,9 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,18 +15,18 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="tb_product")
+@Table(name = "tb_product")
 public class Product extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    message = "There is already a product with this name"
-    @NotEmpty(message = "Name should not be an empty field")
-    @NotBlank(message = "Name should not be an empty field2")
-    @NotNull(message = "Name should not be an empty field3")
+    //    message = "There is already a product with this name"
+//    @NotEmpty(message = "Name should not be an empty field")
+//    @NotBlank(message = "Name should not be an empty field2")
+//    @NotNull(message = "Name should not be an empty field3")
     private String name;
 
     private String description;
@@ -39,31 +36,37 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private Set<OrderItem> orders = new HashSet<>();
 
-    public Product( Integer id,
-                    String name,
-                    String description,
-                    Double value){
+    public Product(Integer id,
+                   String name,
+                   String description,
+                   Double value) {
         this.name = name;
         this.description = description;
         this.value = value;
 
     }
 
-    public void addOrder(Order order){
+    public void addOrder(Order order) {
         orders.add(new OrderItem(order, this));
     }
 
-    public void addOrder(Order order, Integer quantity){
+    public void addOrder(Order order, Integer quantity) {
         orders.add(new OrderItem(order, this, quantity));
     }
 
 
-//    @Override
-//    public void validate() {
-//        if(name == null || description == null){
-//            throw new IllegalArgumentException("Name and description cannot be null");
-//        }
-//    }
+    @Override
+    public void validate() {
+        if (name == null || description == null) {
+            throw new IllegalArgumentException("Name and description cannot be null");
+        }
+        if (value < 0) {
+            throw new IllegalArgumentException("The value of the product must be positive");
+        }
+        if (description.length() < 10){
+            throw new IllegalArgumentException("The product description must be a minimum of 10 characters long");
+        }
+    }
 
     @Override
     public String toString() {

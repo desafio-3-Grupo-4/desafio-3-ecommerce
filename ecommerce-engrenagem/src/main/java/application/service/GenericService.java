@@ -27,6 +27,11 @@ public class GenericService<PK, T> {
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<BaseEntity>> constraintViolations = validator.validate(entity);
 
+        for (ConstraintViolation error : constraintViolations) {
+            String msgError = error.getMessage();
+            System.out.println(msgError);
+        }
+
         try {
             simpleEntityManager.beginTransaction();
 
@@ -37,10 +42,7 @@ public class GenericService<PK, T> {
             simpleEntityManager.commit();
         } catch (Exception e) {
             System.out.println("Fail to save product: " + e.getMessage());
-            for (ConstraintViolation error : constraintViolations) {
-                String msgError = error.getMessage();
-                System.out.println(msgError);
-            }
+
 
             e.printStackTrace();
 

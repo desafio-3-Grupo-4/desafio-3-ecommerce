@@ -40,6 +40,13 @@ public class Order extends BaseEntity {
     }
 
     @Override
+    public void validate() {
+        if (orderStatus == null){
+            throw new IllegalArgumentException("OrderStatus cannot be null");
+        }
+    }
+
+    @Override
     public String toString(){
         int i = 0;
         StringBuilder stringBuilder = new StringBuilder();

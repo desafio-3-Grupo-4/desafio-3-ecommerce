@@ -47,7 +47,6 @@ public class OrderItem extends BaseEntity {
         return this.quantity * product.getValue();
     }
 
-
     @Override
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
