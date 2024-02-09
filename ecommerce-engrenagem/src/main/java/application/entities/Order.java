@@ -40,6 +40,9 @@ public class Order extends BaseEntity {
     public void addProduct(Product product, Integer quantity){
         products.add(new OrderItem(this, product, quantity));
     }
+    public void removeProduct(OrderItem product){
+        products.remove(product);
+    }
 
     @Override
     public void validate() {

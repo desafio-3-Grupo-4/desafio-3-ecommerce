@@ -6,13 +6,14 @@ import application.entities.Product;
 import application.enums.OrderStatus;
 
 import java.sql.SQLException;
-import java.util.Scanner;
+import java.util.*;
 
 import static application.utilities.Util.*;
 
 public class Main {
 
     public static void main(String[] args) throws SQLException {
+        //populateWithGamest();
         System.out.println("Hello world!");
         int op = 1;
 
@@ -23,6 +24,7 @@ public class Main {
         System.out.println("End of application");
     }
 
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static void printProducts() {
         // update the list of products
         updateListOfAllProducts();
@@ -45,7 +47,8 @@ public class Main {
         listOfAllProducts = productService.findAll();
     }
 
-
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ===================================================================
     public static void printOrders() {
         // update the list of orders
         updateListOfAllOrders();
@@ -67,7 +70,8 @@ public class Main {
         // bring all the orders from the database and put in the list
         listOfAllOrders = orderService.findAll();
     }
-
+    // =====================================================================
+    // ---------------------------------------------------------------------
     public static void printOrderItems() {
         // update the list of items in the order
         updateListOfOrderItem();
@@ -85,10 +89,54 @@ public class Main {
         listOfOrderItem.clear();
     }
 
+    public static void printOrderItems(long orderid) {
+        // update the list of items in the order
+        Order order = updateListOfProducts(orderid);
+        List<OrderItem> items = List.copyOf(order.getProducts());
+        int i = 0;
+
+        System.out.println("=====================================");
+        System.out.print("Order " + orderid + ": Products(");
+        // for each order
+        for (Product p : listOfAllProducts) {
+            // print all the information
+            System.out.print(p.getName() + ", quantity: ");
+            for(OrderItem item : items){
+                if(item.getProduct().getId().equals(p.getId())){
+                    System.out.print(item.getQuantity());
+                }
+            }
+            if(i < listOfAllProducts.size()){
+                System.out.print(" ; ");
+                i++;
+            }
+
+
+        }
+        System.out.println(")");
+        System.out.println("=====================================");
+
+        // clear the memory
+        listOfOrderItem.clear();
+    }
+
     public static void updateListOfOrderItem() {
         // bring all the orders from the database and put in the list
         listOfOrderItem = orderItemService.findAll();
     }
+
+    public static Order updateListOfProducts(long orderid) {
+        // bring all the orders from the database and put in the list
+        Order order = orderService.findById(orderid);
+
+        for(OrderItem items: order.getProducts()){
+            listOfAllProducts.add(productService.findById(items.getProduct().getId()));
+        }
+
+        return order;
+    }
+
+    // ----------------------------------------------------------------------
 
     public static int menuAdm() {
         Scanner scanner = new Scanner(System.in);
@@ -122,12 +170,14 @@ public class Main {
             System.out.println("1- Adicionar produto ao carrinho");
             System.out.println("2- Retirar produto do carrinho");
             System.out.println("3- Modificar status do pedido");
+            System.out.println("4- Mostrar pedido em detalhe");
+            System.out.println("5- Mostrar pedidos");
             System.out.println("0- Sair");
             System.out.println("------------------------------------");
             System.out.print("Escolha uma opção: ");
             op = scanner.nextInt();
 
-        } while (op < 0 || op > 3);
+        } while (op < 0 || op > 4);
 
         return op;
     }
@@ -177,6 +227,7 @@ public class Main {
                 Order o1 = new Order();
                 OrderItem orderItem = null;
                 while (!keep.equalsIgnoreCase("n")) {
+                    printProducts();
                     System.out.print("Digite o id do produto: ");
                     id = scanner.nextLong();
                     System.out.print("Digite a quantidade: ");
@@ -196,9 +247,17 @@ public class Main {
                 break;
 
             case 2:
+                printOrders();
+                System.out.print("Digite o id da Ordem: ");
+                long orderId = scanner.nextLong();
+                printOrderItems(orderId);
+
+                
+
                 System.out.println("Ainda não sei");
                 break;
             case 3:
+                printOrders();
                 System.out.print("Digite o id da ordem: ");
                 id = scanner.nextLong();
 
@@ -211,7 +270,31 @@ public class Main {
                 o1.setOrderStatus(OrderStatus.fromValue(idStatus));
                 orderService.update(o1);
                 break;
+            case 4:
+                printOrders();
+                System.out.print("Digite o id da Ordem: ");
+                long orderId = scanner.nextLong();
+                printOrderItems(orderId);
+                break;
+            case 5:
+                printOrders();
+                break;
         }
+
+    }
+    public  static void populateWithGamest(){
+        Product p1 = new Product( null, "rocketleague","cars with rockets", 2.4);
+        Product p2 = new Product( null, "wolfstein", "Kill Nazis", 20.0);
+        Product p3 = new Product( null, "resident evil 4 remake", "kill las plaguas", 50.0);
+        Product p4 = new Product( null, "resident evil 3 remake", "kill las plaguas", 50.0);
+        Product p5 = new Product( null, "resident evil 2 remake", "kill las plaguas", 50.0);
+
+
+        productService.save(p1);
+        productService.save(p2);
+        productService.save(p3);
+        productService.save(p4);
+        productService.save(p5);
 
     }
 
