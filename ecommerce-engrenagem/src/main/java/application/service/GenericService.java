@@ -1,9 +1,7 @@
 package application.service;
 
 import application.DAO.GenericDAO;
-import application.DAO.ProductDAO;
 import application.entities.BaseEntity;
-import application.entities.Product;
 import application.managers.SimpleEntityManager;
 
 import java.util.List;
@@ -13,14 +11,23 @@ public class GenericService<PK, T> {
 
     protected SimpleEntityManager simpleEntityManager;
 
-    public GenericService(SimpleEntityManager simpleEntityManager, GenericDAO entity){
+    public GenericService(SimpleEntityManager simpleEntityManager, GenericDAO entity) {
         this.simpleEntityManager = simpleEntityManager;
         dao = entity;
 
     }
 
-    public void save(BaseEntity entity){
-        try{
+    public void save(BaseEntity entity) {
+//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//        Validator validator = factory.getValidator();
+//        Set<ConstraintViolation<BaseEntity>> constraintViolations = validator.validate(entity);
+
+//        for (ConstraintViolation error : constraintViolations) {
+//            String msgError = error.getMessage();
+//            System.out.println(msgError);
+//        }
+
+        try {
             simpleEntityManager.beginTransaction();
 
             entity.validate();
@@ -28,10 +35,9 @@ public class GenericService<PK, T> {
             dao.persist(entity);
 
             simpleEntityManager.commit();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Fail to save product: " + e.getMessage());
-            e.printStackTrace();
-
+//            e.printStackTrace();
             simpleEntityManager.rollBack();
         }
     }
@@ -47,7 +53,7 @@ public class GenericService<PK, T> {
 
         } catch (Exception ex) {
             System.out.println("Fail to update product: " + ex.getMessage());
-            ex.printStackTrace();
+//            ex.printStackTrace();
             simpleEntityManager.rollBack();
         }
 
@@ -61,18 +67,18 @@ public class GenericService<PK, T> {
 
             simpleEntityManager.commit();
 
-        } catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println("Remove error: " + ex.getMessage());
-            ex.printStackTrace();
+//            ex.printStackTrace();
             simpleEntityManager.rollBack();
         }
     }
 
-    public List<T> findAll(){
+    public List<T> findAll() {
         return dao.findAll();
     }
 
-    public T findById(PK id){
+    public T findById(PK id) {
         return (T) dao.getById(id);
     }
 }

@@ -1,11 +1,19 @@
 package application.entities;
 
-import lombok.*;
+import application.exceptions.ConstraintException;
+import application.exceptions.DuplicateEntityException;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+
+import static application.utilities.Util.productService;
 
 @Getter
 @Setter
@@ -13,13 +21,18 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "tb_product")
 public class Product extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //    message = "There is already a product with this name"
+//    @NotEmpty(message = "Name should not be an empty field")
+//    @NotBlank(message = "Name should not be an empty field2")
+//    @NotNull(message = "Name should not be an empty field3")
     private String name;
 
     private String description;
@@ -29,30 +42,55 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private Set<OrderItem> orders = new HashSet<>();
 
-    public Product( Integer id,
-                    String name,
-                    String description,
-                    Double value){
+    public Product(Integer id,
+                   String name,
+                   String description,
+                   Double value) {
         this.name = name;
         this.description = description;
         this.value = value;
 
     }
 
-    public void addOrder(Order order){
+    public void addOrder(Order order) {
         orders.add(new OrderItem(order, this));
     }
 
-    public void addOrder(Order order, Integer quantity){
+    public void addOrder(Order order, Integer quantity) {
         orders.add(new OrderItem(order, this, quantity));
     }
 
 
     @Override
     public void validate() {
-        if(name == null || description == null){
-            throw new IllegalArgumentException("Name and description cannot be null");
+        if (name == null || description == null) {
+            throw new ConstraintException("Name and description cannot be null");
         }
+        if (value < 0) {
+            throw new ConstraintException("The value of the product must be positive");
+        }
+        if (description.length() < 10) {
+            throw new ConstraintException("The product description must be a minimum of 10 characters long");
+        }
+
+        List<Product> allProducts = productService.findAll();
+        if (allProducts.contains(this)){
+            throw new DuplicateEntityException("There is already a product with this name");
+        }
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(name, product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override

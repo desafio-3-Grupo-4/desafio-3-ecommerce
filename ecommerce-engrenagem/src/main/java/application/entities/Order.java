@@ -1,13 +1,14 @@
 package application.entities;
 
 import application.enums.OrderStatus;
-import lombok.*;
+import application.exceptions.ConstraintException;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -15,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name="shoppingcart")
+@Table(name="tb_order")
 public class Order extends BaseEntity {
 
     @Id
@@ -37,6 +38,13 @@ public class Order extends BaseEntity {
 
     public void addProduct(Product product, Integer quantity){
         products.add(new OrderItem(this, product, quantity));
+    }
+
+    @Override
+    public void validate() {
+        if (orderStatus == null){
+            throw new ConstraintException("OrderStatus cannot be null");
+        }
     }
 
     @Override

@@ -1,16 +1,18 @@
 package application.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.ManyToOne;
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name="tb_order_item")
 public class OrderItem extends BaseEntity {
 
     @Id
@@ -45,11 +47,13 @@ public class OrderItem extends BaseEntity {
         return this.quantity * product.getValue();
     }
 
-
     @Override
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(product.getName());
+        stringBuilder.append(product.getName()).append("\n");
+        stringBuilder.append(quantity).append("\n");
+        stringBuilder.append("$").append(subTotal());
+
 
         return stringBuilder.toString();
     }
