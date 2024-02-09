@@ -201,16 +201,16 @@ public class Main {
             System.out.println("-------------MenuCostumer-------------");
             System.out.println("1- Adicionar produto ao carrinho");
             System.out.println("2- Modificar produtos do carrinho");
-            System.out.println("3- excluir pedido");
             System.out.println("3- Modificar status do pedido");
-            System.out.println("4- Mostrar pedido em detalhe");
-            System.out.println("5- Mostrar pedidos");
+            System.out.println("4- excluir pedido");
+            System.out.println("5- Mostrar pedido em detalhe");
+            System.out.println("6- Mostrar pedidos");
             System.out.println("0- Sair");
             System.out.println("------------------------------------");
             System.out.print("Escolha uma opção: ");
             op = scanner.nextInt();
 
-        } while (op < 0 || op > 5);
+        } while (op < 0 || op > 6);
 
         return op;
     }
@@ -256,7 +256,7 @@ public class Main {
         int idStatus;
 
         switch (op) {
-
+            //"1- Adicionar produto ao carrinho");
             case 1:
                 Order o1 = new Order();
                 OrderItem orderItem = null;
@@ -279,7 +279,7 @@ public class Main {
                 o1.setOrderStatus(OrderStatus.WAITING_PAYMENT);
                 orderService.save(o1);
                 break;
-
+           // "2- Modificar produtos do carrinho"
             case 2:
                 printOrders();
                 System.out.print("Digite o id da Ordem: ");
@@ -290,6 +290,8 @@ public class Main {
 
 
                 break;
+
+            // "3- Modificar status do pedido");
             case 3:
                 printOrders();
                 System.out.print("Digite o id da ordem: ");
@@ -304,17 +306,21 @@ public class Main {
                 o1.setOrderStatus(OrderStatus.fromValue(idStatus));
                 orderService.update(o1);
                 break;
+
+            // "4- excluir pedido");
             case 4:
                 printOrders();
                 System.out.print("Digite o id da Ordem: ");
                 orderId = scanner.nextLong();
                 printOrderItems(orderId);
                 break;
+
+           // "5- Mostrar pedido em detalhe");
             case 5:
                 printOrders();
                 break;
 
-
+           // "6- Mostrar pedidos");
             case 6:
                 printOrders();
                 System.out.print("Digite o id da Ordem: ");
