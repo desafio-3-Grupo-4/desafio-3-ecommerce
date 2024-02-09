@@ -1,12 +1,11 @@
 package application;
 
-import application.DAO.ProductDAO;
 import application.entities.Order;
 import application.entities.OrderItem;
 import application.entities.Product;
 import application.managers.SimpleEntityManager;
-import application.service.OrderService;
 import application.service.OrderItemService;
+import application.service.OrderService;
 import application.service.ProductService;
 
 import java.sql.SQLException;
@@ -20,13 +19,12 @@ public class Main {
     static OrderItemService orderItemService = new OrderItemService(simpleEntityManager);
     static List<Product> listOfAllProducts = new ArrayList<>();
     static List<Order> listOfAllOrders = new ArrayList<>();
-
     static List<OrderItem> listOfOrderItem = new ArrayList<>();
 
 
     public static void main(String[] args) throws SQLException {
         System.out.println("Hello world!");
-        Product p1 = new Product( null, "rocketleague","cars with rockets", 2.4);
+        /*Product p1 = new Product( null, "rocketleague","cars with rockets", 2.4);
         Product p2 = new Product( null, "wolfstein", "Kill Nazis", 20.0);
         Product p3 = new Product( null, "resident evil 4 remake", "kill las plaguas", 50.0);
         Product p4 = new Product( null, "resident evil 3 remake", "kill las plaguas", 50.0);
@@ -47,11 +45,16 @@ public class Main {
 
         orderService.save(order1);
 
+        OrderItem orderItem1 = new OrderItem(order1, p1);
+
+        orderItemService.save(orderItem1);
+
         printProducts();
 
-        printOrders();
+        printOrders();*/
 
-
+        Product p1 = new Product( null, null, "Kill Nazis", 20.0);
+        productService.save(p1);
 
     }
 

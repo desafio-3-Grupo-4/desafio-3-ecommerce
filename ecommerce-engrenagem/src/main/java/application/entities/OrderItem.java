@@ -12,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name="tb_order_item")
 public class OrderItem extends BaseEntity {
 
     @Id
@@ -50,7 +51,10 @@ public class OrderItem extends BaseEntity {
     @Override
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(product.getName());
+        stringBuilder.append(product.getName()).append("\n");
+        stringBuilder.append(quantity).append("\n");
+        stringBuilder.append("$").append(subTotal());
+
 
         return stringBuilder.toString();
     }

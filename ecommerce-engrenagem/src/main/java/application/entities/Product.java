@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +18,7 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="tb_product")
 public class Product extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -22,6 +26,10 @@ public class Product extends BaseEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+//    message = "There is already a product with this name"
+    @NotEmpty(message = "Name should not be an empty field")
+    @NotBlank(message = "Name should not be an empty field2")
+    @NotNull(message = "Name should not be an empty field3")
     private String name;
 
     private String description;
@@ -50,12 +58,12 @@ public class Product extends BaseEntity {
     }
 
 
-    @Override
-    public void validate() {
-        if(name == null || description == null){
-            throw new IllegalArgumentException("Name and description cannot be null");
-        }
-    }
+//    @Override
+//    public void validate() {
+//        if(name == null || description == null){
+//            throw new IllegalArgumentException("Name and description cannot be null");
+//        }
+//    }
 
     @Override
     public String toString() {

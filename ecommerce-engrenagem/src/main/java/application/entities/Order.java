@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name="shoppingcart")
+@Table(name="tb_order")
 public class Order extends BaseEntity {
 
     @Id
