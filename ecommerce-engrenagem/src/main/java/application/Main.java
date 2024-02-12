@@ -107,6 +107,8 @@ public class Main {
                     System.out.print(item.getQuantity());
                 }
             }
+
+            // TODO corrigir último ;
             if(i < listOfAllProducts.size()){
                 System.out.print(" ; ");
                 i++;
@@ -152,7 +154,7 @@ public class Main {
         for (Product p : listOfAllProducts) {
             // print all the information
             if(p.getId().equals(itemId)){
-                System.out.print("Prouct(name: " + p.getName() + ", quantity: " );
+                System.out.print("Product(name: " + p.getName() + ", quantity: " );
                 for(OrderItem item : items){
                     if(item.getProduct().getId().equals(p.getId())){
                         System.out.print(item.getQuantity());
@@ -199,10 +201,10 @@ public class Main {
 
         do {
             System.out.println("-------------MenuCostumer-------------");
-            System.out.println("1- Adicionar produto ao carrinho");
-            System.out.println("2- Modificar produtos do carrinho");
+            System.out.println("1- Novo pedido");
+            System.out.println("2- Modificar produtos do pedido");
             System.out.println("3- Modificar status do pedido");
-            System.out.println("4- excluir pedido");
+            System.out.println("4- Excluir pedido");
             System.out.println("5- Mostrar pedido em detalhe");
             System.out.println("6- Mostrar pedidos");
             System.out.println("0- Sair");
@@ -259,7 +261,7 @@ public class Main {
             //"1- Adicionar produto ao carrinho");
             case 1:
                 Order o1 = new Order();
-                OrderItem orderItem = null;
+//                OrderItem orderItem = null;
                 while (!keep.equalsIgnoreCase("n")) {
                     printProducts();
                     System.out.print("Digite o id do produto: ");
@@ -322,14 +324,15 @@ public class Main {
                 break;
 
            // "5- Mostrar pedido em detalhe");
+            // TODO mostrar detalhes
             case 5:
                 printOrders();
+                System.out.print("Digite o id da Ordem: ");
                 break;
 
            // "6- Mostrar pedidos");
             case 6:
                 printOrders();
-                System.out.print("Digite o id da Ordem: ");
                 break;
         }
 
@@ -343,8 +346,10 @@ public class Main {
         List<OrderItem> items = new ArrayList<>();
         long itemId;
         int quant = 0;
+        //TODO acrescentar adicionar produtos ao pedido
         System.out.println("1 - Remover Item");
-        System.out.println("2 - alterar a quantidade");
+        System.out.println("2 - Alterar a quantidade");
+        System.out.println("3 - Adicionar item ao pedido");
         do{
             operation = scanner.nextInt();
             switch (operation) {
@@ -383,7 +388,7 @@ public class Main {
 
                     updatedOrder = orderService.findById(orderId);
                     items = List.copyOf(updatedOrder.getProducts());
-                    newOrderItem = null;
+//                    newOrderItem = null;
                     for (OrderItem item : items){
                         if(item.getOrder().getId().equals(orderId) && item.getProduct().getId().equals(itemId)){
                             item.setQuantity(quant);
@@ -391,9 +396,23 @@ public class Main {
                         }
                     }
                     break;
+                case 3:
+                    // add item from order
+                    printProducts();
+                    System.out.print("Digite o id do produto: ");
+                    Long id = scanner.nextLong();
+                    System.out.print("Digite a quantidade: ");
+                    Integer quantity = scanner.nextInt();
+                    scanner.nextLine(); // consume line buffer
+                    Product p1 = productService.findById(id);
+                    updatedOrder = orderService.findById(orderId);
+
+                    updatedOrder.addProduct(p1,quantity);
+                    orderService.update(updatedOrder);
             }
 
         } while (operation < 0 || operation > 2);
+        scanner.close();
     }
 
     public  static void populateWithGamest(){
