@@ -258,7 +258,7 @@ public class Main {
         int idStatus;
 
         switch (op) {
-            //"1- Adicionar produto ao carrinho");
+            //"1- Novo pedido");
             case 1:
                 Order o1 = new Order();
 //                OrderItem orderItem = null;
@@ -274,7 +274,6 @@ public class Main {
                     o1.addProduct(p1,quantity);
 //                    orderItem = new OrderItem(o1, p1, quantity);
 //                    orderItemService.save(orderItem);
-
                     System.out.println("Deseja adicionar mais pedidos? (y/n)");
                     keep = scanner.next();
                 }
@@ -405,10 +404,10 @@ public class Main {
                     Integer quantity = scanner.nextInt();
                     scanner.nextLine(); // consume line buffer
                     Product p1 = productService.findById(id);
-                    updatedOrder = orderService.findById(orderId);
+                    Order o1 = orderService.findById(orderId);
+                    OrderItem orderItem = new OrderItem(o1,p1,quantity);
 
-                    updatedOrder.addProduct(p1,quantity);
-                    orderService.update(updatedOrder);
+                    orderItemService.save(orderItem);
             }
 
         } while (operation < 0 || operation > 2);
