@@ -3,6 +3,7 @@ package application.service;
 import application.DAO.OrderDAO;
 import application.DAO.OrderItemDAO;
 import application.DAO.ProductDAO;
+import application.entities.BaseEntity;
 import application.entities.Order;
 import application.entities.OrderItem;
 import application.managers.SimpleEntityManager;
@@ -33,8 +34,27 @@ public class OrderService extends GenericService<Long, Order>{
                 productDAO.getById(item.getProduct().getId()).addOrder(entity);
             }
 
+            simpleEntityManager.commit();
+        }catch(Exception e){
+            System.out.println("Fail to save Order item: " + e.getMessage());
+            e.printStackTrace();
 
+            simpleEntityManager.rollBack();
+        }
+    }
 
+    public void update(Order entity) {
+        try{
+            simpleEntityManager.beginTransaction();
+
+            entity.validate();
+
+            dao.merge(entity);
+
+            for(OrderItem item: entity.getProducts()){
+                orderItemDAO.merge(item);
+                productDAO.getById(item.getProduct().getId()).addOrder(entity);
+            }
 
             simpleEntityManager.commit();
         }catch(Exception e){
