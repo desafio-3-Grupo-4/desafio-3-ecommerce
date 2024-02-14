@@ -63,8 +63,8 @@ public class Product extends BaseEntity {
 
     @Override
     public void validate() {
-        if (name == null || description == null) {
-            throw new ConstraintException("Name and description cannot be null");
+        if (name == null || description == null || name.length() == 0) {
+            throw new ConstraintException("Name and description cannot be null or empty");
         }
         if (value < 0) {
             throw new ConstraintException("The value of the product must be positive");
