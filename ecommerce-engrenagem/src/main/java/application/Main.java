@@ -21,6 +21,8 @@ public class Main {
         while (op != 0) {
             try {
                 op = mainMenu();
+            } catch (NumberFormatException e){
+                System.out.println("Enter a number in the correct format: '0.00'");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
@@ -196,6 +198,7 @@ public class Main {
                 description = scanner.nextLine();
                 System.out.print("Enter the product value: ");
                 value = scanner.next().replace(",",".");;
+
                 p1 = new Product(null, name, description, Double.parseDouble(value));
 
                 productService.save(p1);
