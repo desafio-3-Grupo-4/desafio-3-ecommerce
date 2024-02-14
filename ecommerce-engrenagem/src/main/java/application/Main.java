@@ -19,8 +19,6 @@ public class Main {
         int op = 1;
 
         while (op != 0) {
-
-
             op = mainMenu();
         }
         scanner.close();

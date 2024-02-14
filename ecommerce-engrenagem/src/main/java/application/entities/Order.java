@@ -50,6 +50,9 @@ public class Order extends BaseEntity {
             throw new ConstraintException("OrderStatus cannot be null");
         }
     }
+    public Double total(){
+        return products.stream().mapToDouble(n -> n.subTotal()).sum();
+    }
 
     @Override
     public String toString(){
@@ -70,8 +73,8 @@ public class Order extends BaseEntity {
                 }
             }
         }
-
-        stringBuilder.append("])");
+        stringBuilder.append("], ");
+        stringBuilder.append(", total: $").append(total()).append(")");
 
         return stringBuilder.toString();
     }
