@@ -38,7 +38,7 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private Set<OrderItem> orders = new HashSet<>();
 
-    public Product(Integer id,
+    public Product(Long id,
                    String name,
                    String description,
                    Double value) {

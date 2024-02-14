@@ -430,7 +430,34 @@ public class Main {
 
     }
 
-    private static void admDecision(int i) {
+    private static void admDecision(int op) {
+        Scanner scanner = new Scanner(System.in);
+        String name;
+        String description;
+        Double value;
+
+        switch (op){
+            case 1:
+                System.out.println("1- Criar produto");
+                System.out.print("Digite o nome do produto: ");
+                name = scanner.nextLine();
+                System.out.print("Digite a descrição do produto: ");
+                description = scanner.nextLine();
+                System.out.print("Digite o valor do produto: ");
+                value = scanner.nextDouble();
+                Product p1 = new Product(null,name, description,value);
+
+                productService.save(p1);
+            case 2:
+                System.out.println("2- Atualizar produto");
+            case 3:
+                System.out.println("3- Consultar produto por ID");
+            case 4:
+                System.out.println("4- Deletar produtos");
+            case 5:
+                System.out.println("5- Listar produtos");
+        }
+
 
 
 //        System.out.print("Digite o nome do produto: ");
