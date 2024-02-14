@@ -219,7 +219,7 @@ public class Main {
 
     public static int mainMenu() {
         Scanner scanner = new Scanner(System.in);
-        int op;
+        int op = -1;
 
         do {
             System.out.println("-------------Main-------------");
@@ -334,6 +334,7 @@ public class Main {
                 printOrders();
                 break;
         }
+        scanner.close();
 
 
     }
@@ -448,15 +449,41 @@ public class Main {
                 Product p1 = new Product(null,name, description,value);
 
                 productService.save(p1);
+                break;
             case 2:
                 System.out.println("2- Atualizar produto");
+                printProducts();
+                System.out.print("Digite o id do produto: ");
+                Long id = scanner.nextLong();
+                scanner.nextLine(); // consume line buffer
+                Product p2 = productService.findById(id);
+
+                System.out.println(p2);
+                System.out.print("Digite o nome do produto: ");
+                name = scanner.nextLine();
+                p2.setName(name);
+
+                System.out.print("Digite a descrição do produto: ");
+                description = scanner.nextLine();
+                p2.setDescription(description);
+
+                System.out.print("Digite o valor do produto: ");
+                value = scanner.nextDouble();
+                p2.setValue(value);
+
+                productService.update(p2);
+                break;
             case 3:
                 System.out.println("3- Consultar produto por ID");
+                break;
             case 4:
                 System.out.println("4- Deletar produtos");
+                break;
             case 5:
                 System.out.println("5- Listar produtos");
+                break;
         }
+        scanner.close();
 
 
 
