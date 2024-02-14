@@ -29,10 +29,6 @@ public class Product extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //    message = "There is already a product with this name"
-//    @NotEmpty(message = "Name should not be an empty field")
-//    @NotBlank(message = "Name should not be an empty field2")
-//    @NotNull(message = "Name should not be an empty field3")
     private String name;
 
     private String description;
@@ -42,7 +38,7 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private Set<OrderItem> orders = new HashSet<>();
 
-    public Product(Integer id,
+    public Product(Long id,
                    String name,
                    String description,
                    Double value) {

@@ -3,6 +3,7 @@ package application.service;
 import application.DAO.OrderDAO;
 import application.DAO.OrderItemDAO;
 import application.DAO.ProductDAO;
+import application.entities.BaseEntity;
 import application.entities.Order;
 import application.entities.OrderItem;
 import application.managers.SimpleEntityManager;
@@ -32,9 +33,6 @@ public class OrderService extends GenericService<Long, Order>{
                 orderItemDAO.persist(item);
                 productDAO.getById(item.getProduct().getId()).addOrder(entity);
             }
-
-
-
 
             simpleEntityManager.commit();
         }catch(Exception e){
