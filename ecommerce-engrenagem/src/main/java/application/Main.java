@@ -24,8 +24,6 @@ public class Main {
 
         System.out.println("End of application");
     }
-
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static void printProducts() {
         // update the list of products
         updateListOfAllProducts();
@@ -48,8 +46,6 @@ public class Main {
         listOfAllProducts = productService.findAll();
     }
 
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // ===================================================================
     public static void printOrders() {
         // update the list of orders
         updateListOfAllOrders();
@@ -72,8 +68,6 @@ public class Main {
         listOfAllOrders = orderService.findAll();
     }
 
-    // =====================================================================
-    // ---------------------------------------------------------------------
     public static void printOrderItems() {
         // update the list of items in the order
         updateListOfOrderItem();
@@ -138,8 +132,6 @@ public class Main {
         return order;
     }
 
-    // ----------------------------------------------------------------------
-    // ......................................................................
     public static void printOrderItem(long orderId, long itemId) {
         Order order = updateListOfProducts(orderId);
         List<OrderItem> items = List.copyOf(order.getProducts());
@@ -169,7 +161,6 @@ public class Main {
         listOfAllProducts.clear();
 
     }
-    // ......................................................................
 
     public static int menuAdm() {
         Scanner scanner = new Scanner(System.in);
@@ -177,14 +168,14 @@ public class Main {
 
         do {
             System.out.println("-------------MenuAdm-------------");
-            System.out.println("1- Criar produto");
-            System.out.println("2- Atualizar produto");
-            System.out.println("3- Consultar produto por ID");
-            System.out.println("4- Deletar produtos");
-            System.out.println("5- Listar produtos");
-            System.out.println("0- Sair");
+            System.out.println("1- Create product");
+            System.out.println("2- Update product");
+            System.out.println("3- Find product by ID");
+            System.out.println("4- Delete products");
+            System.out.println("5- List products");
+            System.out.println("0- Exit");
             System.out.println("---------------------------------");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Choose an option: ");
             op = scanner.nextInt();
 
         } while (op < 0 || op > 5);
@@ -197,16 +188,16 @@ public class Main {
         int op;
 
         do {
-            System.out.println("-------------MenuCostumer-------------");
-            System.out.println("1- Novo pedido");
-            System.out.println("2- Modificar produtos do pedido");
-            System.out.println("3- Modificar status do pedido");
-            System.out.println("4- Excluir pedido");
-            System.out.println("5- Mostrar pedido em detalhe");
-            System.out.println("6- Mostrar pedidos");
-            System.out.println("0- Sair");
+            System.out.println("-------------MenuCostumer-----------");
+            System.out.println("1- New order");
+            System.out.println("2- Modify order items");
+            System.out.println("3- Modify order status");
+            System.out.println("4- Delete order");
+            System.out.println("5- Show order in detail");
+            System.out.println("6- Show orders");
+            System.out.println("0- Exit");
             System.out.println("------------------------------------");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Choose an option: ");
             op = scanner.nextInt();
 
         } while (op < 0 || op > 6);
@@ -220,11 +211,11 @@ public class Main {
 
         do {
             System.out.println("-------------Main-------------");
-            System.out.println("1- Acessar como cliente");
-            System.out.println("2- Acessar como adm");
-            System.out.println("0- Sair");
+            System.out.println("1- Access as customer");
+            System.out.println("2- Access as adm");
+            System.out.println("0- Exit");
             System.out.println("------------------------------");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Choose an option: ");
             op = scanner.nextInt();
 
         } while (op < 0 || op > 2);
@@ -251,44 +242,44 @@ public class Main {
         int idStatus;
 
         switch (op) {
-            //"1- Novo pedido");
+            //"1- New order";
             case 1:
 
                 while (!keep.equalsIgnoreCase("n")) {
                     printProducts();
-                    System.out.print("Digite o id do produto: ");
+                    System.out.print("Enter the product id: ");
                     id = scanner.nextLong();
-                    System.out.print("Digite a quantidade: ");
+                    System.out.print("Enter the quantity: ");
                     quantity = scanner.nextInt();
                     scanner.nextLine(); // consume line buffer
                     Product p1 = productService.findById(id);
 
                     o1.addProduct(p1, quantity);
-                    System.out.println("Deseja adicionar mais pedidos? (y/n)");
+                    System.out.println("Do you want to add more products? (y/n)");
                     keep = scanner.next();
                 }
                 o1.setOrderStatus(OrderStatus.WAITING_PAYMENT);
                 orderService.save(o1);
                 break;
-            // "2- Modificar produtos do carrinho"
+            // "2- Modify order items"
             case 2:
                 printOrders();
-                System.out.print("Digite o id da Ordem: ");
+                System.out.print("Enter the order id: ");
                 long orderId = scanner.nextLong();
                 printOrderItems(orderId);
 
                 updateOrderitems(orderId);
                 break;
 
-            // "3- Modificar status do pedido");
+            // "3- Modify order status";
             case 3:
                 printOrders();
-                System.out.print("Digite o id da ordem: ");
+                System.out.print("Enter the order id: ");
                 id = scanner.nextLong();
 
                 o1 = orderService.findById(id);
 
-                System.out.println("Deseja modificá-la para qual status: ");
+                System.out.print("Which status do you want to change the order to: ");
                 OrderStatus.printOrderStatus();
                 idStatus = scanner.nextInt();
 
@@ -296,10 +287,10 @@ public class Main {
                 orderService.update(o1);
                 break;
 
-            // "4- excluir pedido");
+            // "4- Delete order";
             case 4:
                 printOrders();
-                System.out.print("Digite o id da Ordem: ");
+                System.out.print("Enter the order id: ");
                 orderId = scanner.nextLong();
                 printOrderItems(orderId);
 
@@ -308,14 +299,14 @@ public class Main {
                 orderService.delete(orderToDelete);
                 break;
 
-            // "5- Mostrar pedido em detalhe");
-            // TODO mostrar detalhes
+            // "5- Show order in detail";
+            // TODO show details
             case 5:
                 printOrders();
-                System.out.print("Digite o id da Ordem: ");
+                System.out.print("Enter the order id: ");
                 break;
 
-            // "6- Mostrar pedidos");
+            // "6- Show orders";
             case 6:
                 printOrders();
                 break;
@@ -325,27 +316,29 @@ public class Main {
 
     public static void updateOrderitems(long orderId) {
         Scanner scanner = new Scanner(System.in);
-        int operation = 0;
+        int op = 0;
 
-        List<OrderItem> items = new ArrayList<>();
+        List<OrderItem> items;
         long itemId;
         int quant = 0;
-        //TODO acrescentar adicionar produtos ao pedido
-        System.out.println("1 - Remover Item");
-        System.out.println("2 - Alterar a quantidade");
-        System.out.println("3 - Adicionar item ao pedido");
+
+        System.out.println("------------------------------");
+        System.out.println("1 - Remove item");
+        System.out.println("2 - Change quantity");
+        System.out.println("3 - Add item to the order");
+        System.out.println("------------------------------");
+        System.out.print("Choose an option: ");
         do {
-            operation = scanner.nextInt();
-            switch (operation) {
-                // delete a item from order
+            op = scanner.nextInt();
+            switch (op) {
+                // delete an item from order
                 case 1:
-                    System.out.println("Digite o id do item");
+                    System.out.print("Enter the item id: ");
                     itemId = scanner.nextLong();
                     printOrderItem(orderId, itemId);
 
                     Order updatedOrder = orderService.findById(orderId);
                     items = List.copyOf(updatedOrder.getProducts());
-                    OrderItem newOrderItem = null;
 
                     for (OrderItem item : items) {
                         if (item.getOrder().getId().equals(orderId) && item.getProduct().getId().equals(itemId)) {
@@ -358,16 +351,15 @@ public class Main {
                             productService.update(updatedProduct);
                         }
                     }
-
                     break;
-                // update a item quantity
+                // update an item quantity
                 case 2:
-                    System.out.println("Digite o id do item");
+                    System.out.print("Enter the item id: ");
                     itemId = scanner.nextLong();
                     printOrderItem(orderId, itemId);
 
-                    System.out.println("Digite a nova quantidade do item");
-                    scanner.nextLine();
+                    System.out.print("Enter the new quantity of the item: ");
+                    scanner.nextLine(); // consume line buffer
                     quant = scanner.nextInt();
 
                     updatedOrder = orderService.findById(orderId);
@@ -380,11 +372,11 @@ public class Main {
                     }
                     break;
                 case 3:
-                    // add item from order
+                    // add item to the order
                     printProducts();
-                    System.out.print("Digite o id do produto: ");
+                    System.out.print("Enter the product id: ");
                     Long id = scanner.nextLong();
-                    System.out.print("Digite a quantidade: ");
+                    System.out.print("Enter the quantity: ");
                     Integer quantity = scanner.nextInt();
                     scanner.nextLine(); // consume line buffer
                     Product p1 = productService.findById(id);
@@ -394,7 +386,7 @@ public class Main {
                     orderItemService.save(orderItem);
             }
 
-        } while (operation < 0 || operation > 2);
+        } while (op < 0 || op > 3);
         scanner.close();
     }
 
@@ -424,44 +416,41 @@ public class Main {
 
         switch (op) {
             case 1:
-                System.out.println("1- Criar produto");
-                System.out.print("Digite o nome do produto: ");
+                System.out.print("Enter the product name: ");
                 name = scanner.nextLine();
-                System.out.print("Digite a descrição do produto: ");
+                System.out.print("Enter the product description: ");
                 description = scanner.nextLine();
-                System.out.print("Digite o valor do produto: ");
+                System.out.print("Enter the product value: ");
                 value = scanner.nextDouble();
                 p1 = new Product(null, name, description, value);
 
                 productService.save(p1);
                 break;
             case 2:
-                System.out.println("2- Atualizar produto");
                 printProducts();
-                System.out.print("Digite o id do produto: ");
+                System.out.print("Enter the product id: ");
                 id = scanner.nextLong();
                 scanner.nextLine(); // consume line buffer
                 p1 = productService.findById(id);
 
                 System.out.println(p1);
-                System.out.print("Digite o nome do produto: ");
+                System.out.print("Enter the new product name: ");
                 name = scanner.nextLine();
                 p1.setName(name);
 
-                System.out.print("Digite a descrição do produto: ");
+                System.out.print("Enter the new product description: ");
                 description = scanner.nextLine();
                 p1.setDescription(description);
 
-                System.out.print("Digite o valor do produto: ");
+                System.out.print("Enter the new product value: ");
                 value = scanner.nextDouble();
                 p1.setValue(value);
 
                 productService.update(p1);
                 break;
             case 3:
-                System.out.println("3- Consultar produto por ID");
-                //TODO mostrar mais detalhes
-                System.out.print("Digite o id do produto: ");
+                //TODO show more details
+                System.out.print("Enter the product id: ");
                 id = scanner.nextLong();
                 scanner.nextLine(); // consume line buffer
                 p1 = productService.findById(id);
@@ -469,9 +458,8 @@ public class Main {
                 System.out.println(p1);
                 break;
             case 4:
-                System.out.println("4- Deletar produtos");
                 printProducts();
-                System.out.print("Digite o id do produto: ");
+                System.out.print("Enter the product id: ");
                 id = scanner.nextLong();
                 scanner.nextLine(); // consume line buffer
                 p1 = productService.findById(id);
@@ -479,7 +467,6 @@ public class Main {
                 productService.delete(p1);
                 break;
             case 5:
-                System.out.println("5- Listar produtos");
                 printProducts();
                 break;
         }
