@@ -71,6 +71,7 @@ public class Main {
         // bring all the orders from the database and put in the list
         listOfAllOrders = orderService.findAll();
     }
+
     // =====================================================================
     // ---------------------------------------------------------------------
     public static void printOrderItems() {
@@ -101,20 +102,18 @@ public class Main {
         // for each order
         for (Product p : listOfAllProducts) {
             // print all the information
-            System.out.print("Id = "+ p.getId() + ", " + p.getName() + ", quantity: ");
-            for(OrderItem item : items){
-                if(item.getProduct().getId().equals(p.getId())){
+            System.out.print("Id = " + p.getId() + ", " + p.getName() + ", quantity: ");
+            for (OrderItem item : items) {
+                if (item.getProduct().getId().equals(p.getId())) {
                     System.out.print(item.getQuantity());
                 }
             }
 
             // TODO corrigir último ;
-            if(i < listOfAllProducts.size()){
+            if (i < listOfAllProducts.size()) {
                 System.out.print(" ; ");
                 i++;
             }
-
-
         }
         System.out.println(")");
         System.out.println("=====================================");
@@ -133,17 +132,15 @@ public class Main {
         // bring all the orders from the database and put in the list
         Order order = orderService.findById(orderid);
 
-        for(OrderItem items: order.getProducts()){
+        for (OrderItem items : order.getProducts()) {
             listOfAllProducts.add(productService.findById(items.getProduct().getId()));
         }
-
-
         return order;
     }
 
     // ----------------------------------------------------------------------
     // ......................................................................
-    public static void printOrderItem(long orderId,long itemId){
+    public static void printOrderItem(long orderId, long itemId) {
         Order order = updateListOfProducts(orderId);
         List<OrderItem> items = List.copyOf(order.getProducts());
         int i = 0;
@@ -153,10 +150,10 @@ public class Main {
         // for each order
         for (Product p : listOfAllProducts) {
             // print all the information
-            if(p.getId().equals(itemId)){
-                System.out.print("Product(name: " + p.getName() + ", quantity: " );
-                for(OrderItem item : items){
-                    if(item.getProduct().getId().equals(p.getId())){
+            if (p.getId().equals(itemId)) {
+                System.out.print("Product(name: " + p.getName() + ", quantity: ");
+                for (OrderItem item : items) {
+                    if (item.getProduct().getId().equals(p.getId())) {
                         System.out.print(item.getQuantity());
                     }
                 }
@@ -243,7 +240,6 @@ public class Main {
             default:
                 return op;
         }
-
     }
 
     public static void costumerDecision(int op) {
@@ -267,14 +263,14 @@ public class Main {
                     scanner.nextLine(); // consume line buffer
                     Product p1 = productService.findById(id);
 
-                    o1.addProduct(p1,quantity);
+                    o1.addProduct(p1, quantity);
                     System.out.println("Deseja adicionar mais pedidos? (y/n)");
                     keep = scanner.next();
                 }
                 o1.setOrderStatus(OrderStatus.WAITING_PAYMENT);
                 orderService.save(o1);
                 break;
-           // "2- Modificar produtos do carrinho"
+            // "2- Modificar produtos do carrinho"
             case 2:
                 printOrders();
                 System.out.print("Digite o id da Ordem: ");
@@ -312,24 +308,22 @@ public class Main {
                 orderService.delete(orderToDelete);
                 break;
 
-           // "5- Mostrar pedido em detalhe");
+            // "5- Mostrar pedido em detalhe");
             // TODO mostrar detalhes
             case 5:
                 printOrders();
                 System.out.print("Digite o id da Ordem: ");
                 break;
 
-           // "6- Mostrar pedidos");
+            // "6- Mostrar pedidos");
             case 6:
                 printOrders();
                 break;
         }
         scanner.close();
-
-
     }
 
-    public static void updateOrderitems(long orderId){
+    public static void updateOrderitems(long orderId) {
         Scanner scanner = new Scanner(System.in);
         int operation = 0;
 
@@ -340,7 +334,7 @@ public class Main {
         System.out.println("1 - Remover Item");
         System.out.println("2 - Alterar a quantidade");
         System.out.println("3 - Adicionar item ao pedido");
-        do{
+        do {
             operation = scanner.nextInt();
             switch (operation) {
                 // delete a item from order
@@ -353,8 +347,8 @@ public class Main {
                     items = List.copyOf(updatedOrder.getProducts());
                     OrderItem newOrderItem = null;
 
-                    for (OrderItem item : items){
-                        if(item.getOrder().getId().equals(orderId) && item.getProduct().getId().equals(itemId)){
+                    for (OrderItem item : items) {
+                        if (item.getOrder().getId().equals(orderId) && item.getProduct().getId().equals(itemId)) {
                             orderItemService.delete(item);
                             updatedOrder.getProducts().remove(item);
                             orderService.update(updatedOrder);
@@ -378,8 +372,8 @@ public class Main {
 
                     updatedOrder = orderService.findById(orderId);
                     items = List.copyOf(updatedOrder.getProducts());
-                    for (OrderItem item : items){
-                        if(item.getOrder().getId().equals(orderId) && item.getProduct().getId().equals(itemId)){
+                    for (OrderItem item : items) {
+                        if (item.getOrder().getId().equals(orderId) && item.getProduct().getId().equals(itemId)) {
                             item.setQuantity(quant);
                             orderItemService.update(item);
                         }
@@ -395,7 +389,7 @@ public class Main {
                     scanner.nextLine(); // consume line buffer
                     Product p1 = productService.findById(id);
                     Order o1 = orderService.findById(orderId);
-                    OrderItem orderItem = new OrderItem(o1,p1,quantity);
+                    OrderItem orderItem = new OrderItem(o1, p1, quantity);
 
                     orderItemService.save(orderItem);
             }
@@ -404,12 +398,12 @@ public class Main {
         scanner.close();
     }
 
-    public  static void populateWithGamest(){
-        Product p1 = new Product( null, "rocketleague","cars with rockets", 2.4);
-        Product p2 = new Product( null, "wolfstein", "Kill Nazis", 20.0);
-        Product p3 = new Product( null, "resident evil 4 remake", "kill las plaguas", 50.0);
-        Product p4 = new Product( null, "resident evil 3 remake", "kill las plaguas", 50.0);
-        Product p5 = new Product( null, "resident evil 2 remake", "kill las plaguas", 50.0);
+    public static void populateWithGamest() {
+        Product p1 = new Product(null, "rocketleague", "cars with rockets", 2.4);
+        Product p2 = new Product(null, "wolfstein", "Kill Nazis", 20.0);
+        Product p3 = new Product(null, "resident evil 4 remake", "kill las plaguas", 50.0);
+        Product p4 = new Product(null, "resident evil 3 remake", "kill las plaguas", 50.0);
+        Product p5 = new Product(null, "resident evil 2 remake", "kill las plaguas", 50.0);
 
 
         productService.save(p1);
@@ -428,7 +422,7 @@ public class Main {
         String description;
         Double value;
 
-        switch (op){
+        switch (op) {
             case 1:
                 System.out.println("1- Criar produto");
                 System.out.print("Digite o nome do produto: ");
@@ -437,7 +431,7 @@ public class Main {
                 description = scanner.nextLine();
                 System.out.print("Digite o valor do produto: ");
                 value = scanner.nextDouble();
-                p1 = new Product(null,name, description,value);
+                p1 = new Product(null, name, description, value);
 
                 productService.save(p1);
                 break;
@@ -486,46 +480,9 @@ public class Main {
                 break;
             case 5:
                 System.out.println("5- Listar produtos");
-
+                printProducts();
                 break;
         }
         scanner.close();
     }
-    
-
-     /*Product p1 = new Product( null, "rocketleague","cars with rockets", 2.4);
-        Product p2 = new Product( null, "wolfstein", "Kill Nazis", 20.0);
-        Product p3 = new Product( null, "resident evil 4 remake", "kill las plaguas", 50.0);
-        Product p4 = new Product( null, "resident evil 3 remake", "kill las plaguas", 50.0);
-        Product p5 = new Product( null, "resident evil 2 remake", "kill las plaguas", 50.0);
-
-
-        productService.save(p1);
-        productService.save(p2);
-        productService.save(p3);
-        productService.save(p4);
-        productService.save(p5);
-
-        Order order1 = new Order();
-
-        order1.addProduct(productService.findById(2L));
-        order1.addProduct(productService.findById(5L));
-
-
-        orderService.save(order1);
-
-        OrderItem orderItem1 = new OrderItem(order1, p1);
-
-        orderItemService.save(orderItem1);
-
-        printProducts();
-
-        printOrders();
-
-        Product p1 = new Product(null, "wolfstein", "Killing mother fóckers", 20.0);
-
-        for (int i = 0; i < 2; i++) {
-            productService.save(p1);
-        }*/
-
 }
