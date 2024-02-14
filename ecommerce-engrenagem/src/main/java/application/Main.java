@@ -4,6 +4,7 @@ import application.entities.Order;
 import application.entities.OrderItem;
 import application.entities.Product;
 import application.enums.OrderStatus;
+import application.exceptions.NotFoundException;
 import application.service.OrderService;
 
 import java.sql.SQLException;
@@ -307,7 +308,7 @@ public class Main {
                 case 2:
                     System.out.print("Enter the item id: ");
                     itemId = scanner.nextLong();
-                    printOrderItem(orderId, itemId);
+                    printOrderItem(orderId, itemId, true);
 
                     System.out.print("Enter the new quantity of the item: ");
 //                    scanner.nextLine(); // consume line buffer
@@ -415,7 +416,7 @@ public class Main {
             System.out.print("Id = " + p.getId() + ", " + p.getName() + ", quantity: ");
             for (OrderItem item : items) {
                 if (item.getProduct().getId().equals(p.getId())) {
-                    System.out.print(item.getQuantity());
+                    System.out.print(item.getQuantity() + ", value: $" + item.getProduct().getValue());
                 }
             }
 
@@ -425,7 +426,7 @@ public class Main {
                 i++;
             }
         }
-        System.out.println(")");
+        System.out.println("total: $" + order.total()+ ")");
         System.out.println("=====================================");
 
         // clear the memory
@@ -463,14 +464,43 @@ public class Main {
                 System.out.print("Product(name: " + p.getName() + ", quantity: ");
                 for (OrderItem item : items) {
                     if (item.getProduct().getId().equals(p.getId())) {
-                        System.out.print(item.getQuantity());
+                        System.out.print(item.getQuantity() + ", value: $" + item.getProduct().getValue());
                     }
                 }
 
                 System.out.println(")");
             }
         }
-        System.out.println(")");
+        System.out.println("total: $" + order.total()+ ")");
+        System.out.println("=====================================");
+
+        // clear the memory
+        listOfOrderItem.clear();
+        listOfAllProducts.clear();
+
+    }
+    public static void printOrderItem(long orderId, long itemId, boolean onlyProduct) {
+        //TODO exception if not found itemId in order
+        Order order = updateListOfProducts(orderId);
+        List<OrderItem> items = List.copyOf(order.getProducts());
+        int i = 0;
+
+        System.out.println("=====================================");
+
+        // for each order
+        for (Product p : listOfAllProducts) {
+            // print all the information
+            if (p.getId().equals(itemId)) {
+                System.out.print("Product(name: " + p.getName() + ", quantity: ");
+                for (OrderItem item : items) {
+                    if (item.getProduct().getId().equals(p.getId())) {
+                        System.out.print(item.getQuantity() + ", value: $" + item.getProduct().getValue());
+                    }
+                }
+
+                System.out.println(")");
+            }
+        }
         System.out.println("=====================================");
 
         // clear the memory
