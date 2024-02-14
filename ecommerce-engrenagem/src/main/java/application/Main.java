@@ -171,6 +171,14 @@ public class Main {
             case 5:
                 printOrders();
                 System.out.print("Enter the order id: ");
+                orderId = scanner.nextLong();
+
+                if(orderService.findById(orderId) != null) {
+                    printOrderItems(orderId);
+                } else {
+                    System.out.println("Order don't found!");
+                }
+
                 break;
 
             // "6- Show orders";
