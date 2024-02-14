@@ -41,6 +41,7 @@ public class OrderService extends GenericService<Long, Order>{
 
             simpleEntityManager.rollBack();
         }
+
     }
 
     public void delete(Order entity){

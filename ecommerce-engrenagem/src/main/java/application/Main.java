@@ -19,7 +19,12 @@ public class Main {
         int op = 1;
 
         while (op != 0) {
-            op = mainMenu();
+            try {
+                op = mainMenu();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
         }
         scanner.close();
         System.out.println("End of application");
