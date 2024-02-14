@@ -248,11 +248,8 @@ public class Main {
 
     public static void costumerDecision(int op) {
         Scanner scanner = new Scanner(System.in);
-        int operation;
+        Order o1 = new Order();
         Long id;
-        String name;
-        String description;
-        Double value;
         Integer quantity;
         String keep = "y";
         int idStatus;
@@ -260,8 +257,7 @@ public class Main {
         switch (op) {
             //"1- Novo pedido");
             case 1:
-                Order o1 = new Order();
-//                OrderItem orderItem = null;
+
                 while (!keep.equalsIgnoreCase("n")) {
                     printProducts();
                     System.out.print("Digite o id do produto: ");
@@ -272,8 +268,6 @@ public class Main {
                     Product p1 = productService.findById(id);
 
                     o1.addProduct(p1,quantity);
-//                    orderItem = new OrderItem(o1, p1, quantity);
-//                    orderItemService.save(orderItem);
                     System.out.println("Deseja adicionar mais pedidos? (y/n)");
                     keep = scanner.next();
                 }
@@ -288,8 +282,6 @@ public class Main {
                 printOrderItems(orderId);
 
                 updateOrderitems(orderId);
-
-
                 break;
 
             // "3- Modificar status do pedido");
@@ -318,8 +310,6 @@ public class Main {
                 Order orderToDelete = orderService.findById(orderId);
 
                 orderService.delete(orderToDelete);
-
-
                 break;
 
            // "5- Mostrar pedido em detalhe");
@@ -388,7 +378,6 @@ public class Main {
 
                     updatedOrder = orderService.findById(orderId);
                     items = List.copyOf(updatedOrder.getProducts());
-//                    newOrderItem = null;
                     for (OrderItem item : items){
                         if(item.getOrder().getId().equals(orderId) && item.getProduct().getId().equals(itemId)){
                             item.setQuantity(quant);
@@ -433,6 +422,8 @@ public class Main {
 
     private static void admDecision(int op) {
         Scanner scanner = new Scanner(System.in);
+        Product p1;
+        Long id;
         String name;
         String description;
         Double value;
@@ -446,7 +437,7 @@ public class Main {
                 description = scanner.nextLine();
                 System.out.print("Digite o valor do produto: ");
                 value = scanner.nextDouble();
-                Product p1 = new Product(null,name, description,value);
+                p1 = new Product(null,name, description,value);
 
                 productService.save(p1);
                 break;
@@ -454,46 +445,51 @@ public class Main {
                 System.out.println("2- Atualizar produto");
                 printProducts();
                 System.out.print("Digite o id do produto: ");
-                Long id = scanner.nextLong();
+                id = scanner.nextLong();
                 scanner.nextLine(); // consume line buffer
-                Product p2 = productService.findById(id);
+                p1 = productService.findById(id);
 
-                System.out.println(p2);
+                System.out.println(p1);
                 System.out.print("Digite o nome do produto: ");
                 name = scanner.nextLine();
-                p2.setName(name);
+                p1.setName(name);
 
                 System.out.print("Digite a descrição do produto: ");
                 description = scanner.nextLine();
-                p2.setDescription(description);
+                p1.setDescription(description);
 
                 System.out.print("Digite o valor do produto: ");
                 value = scanner.nextDouble();
-                p2.setValue(value);
+                p1.setValue(value);
 
-                productService.update(p2);
+                productService.update(p1);
                 break;
             case 3:
                 System.out.println("3- Consultar produto por ID");
+                //TODO mostrar mais detalhes
+                System.out.print("Digite o id do produto: ");
+                id = scanner.nextLong();
+                scanner.nextLine(); // consume line buffer
+                p1 = productService.findById(id);
+
+                System.out.println(p1);
                 break;
             case 4:
                 System.out.println("4- Deletar produtos");
+                printProducts();
+                System.out.print("Digite o id do produto: ");
+                id = scanner.nextLong();
+                scanner.nextLine(); // consume line buffer
+                p1 = productService.findById(id);
+
+                productService.delete(p1);
                 break;
             case 5:
                 System.out.println("5- Listar produtos");
+
                 break;
         }
         scanner.close();
-
-
-
-//        System.out.print("Digite o nome do produto: ");
-//        name = scanner.nextLine();
-//        System.out.print("Digite a descrição do produto: ");
-//        description = scanner.nextLine();
-//        System.out.print("Digite o valor do produto: ");
-//        value = scanner.nextDouble();
-
     }
     
 
