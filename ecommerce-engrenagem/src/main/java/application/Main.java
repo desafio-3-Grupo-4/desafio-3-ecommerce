@@ -23,6 +23,7 @@ public class Main {
                 op = mainMenu();
             } catch (NumberFormatException e){
                 System.out.println("Enter a number in the correct format: '0.00'");
+                e.printStackTrace();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
