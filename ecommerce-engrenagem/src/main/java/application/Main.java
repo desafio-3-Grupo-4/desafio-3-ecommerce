@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 //        populateWithGamest();
-//        System.out.println("Hello world!");
+        Locale.setDefault(Locale.US);
         int op = 1;
 
         while (op != 0) {
@@ -183,7 +183,7 @@ public class Main {
         Long id;
         String name;
         String description;
-        Double value;
+        String value;
 
         switch (op) {
 
@@ -195,8 +195,8 @@ public class Main {
                 System.out.print("Enter the product description: ");
                 description = scanner.nextLine();
                 System.out.print("Enter the product value: ");
-                value = scanner.nextDouble();
-                p1 = new Product(null, name, description, value);
+                value = scanner.next().replace(",",".");;
+                p1 = new Product(null, name, description, Double.parseDouble(value));
 
                 productService.save(p1);
                 break;
@@ -219,8 +219,8 @@ public class Main {
                 p1.setDescription(description);
 
                 System.out.print("Enter the new product value: ");
-                value = scanner.nextDouble();
-                p1.setValue(value);
+                value = scanner.next().replace(",",".");
+                p1.setValue(Double.parseDouble(value));
 
                 productService.update(p1);
                 break;
